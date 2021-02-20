@@ -10,7 +10,7 @@ public class MinesweeperGameTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        game = new Game(1, "nchert", 10, 10, 10);
+        game = new Game("nchert", 10, 10, 10);
     }
 
     @Test
