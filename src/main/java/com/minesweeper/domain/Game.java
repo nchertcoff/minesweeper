@@ -120,8 +120,8 @@ public class Game {
 		this.cells = cells;
 	}
 
-	public List<Cell> getVisitedCells() {
-		return getCellList().stream().filter(cell -> cell.isVisited()).collect(Collectors.toList());
+	public List<Cell> getVisitedOrMarkedCells() {
+		return getCellList().stream().filter(cell -> cell.isVisited() || cell.isFlagged() || cell.isQuestionMarked()).collect(Collectors.toList());
 	}
 
 	@PostLoad

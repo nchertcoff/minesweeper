@@ -3,8 +3,6 @@ package com.minesweeper.service;
 import java.util.List;
 import java.util.Random;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,7 +108,31 @@ public class GameService {
 			//We visit a bomb :(
 			game.setStatus(GameStatus.LOSE);
 		}
+		checkIfCompleted(game);
 		gameRepository.save(game);
+	}
+
+	private void checkIfCompleted(Game game) {
+		boolean cellIncorrectlyFlagged = false;
+		Cell[][] cells = game.getCells();
+		Integer rows = game.getRows();
+		Integer cols = game.getCols();
+		
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (!cells[i][j].isVisited() && !cells[i][j].isFlagged()) {
+					return;
+				}
+				if (cells[i][j].isFlagged() && !cells[i][j].isBomb()) { 
+					cellIncorrectlyFlagged = true;
+					if (cellIncorrectlyFlagged) { 
+						//TODO: Return a warning for using more flags than bombs 
+						return;
+					}
+				}
+			}
+		}
+		game.setStatus(GameStatus.WIN);
 	}
 
 	public Cell getCell(Integer gameId, Integer row, Integer col) {
@@ -125,9 +147,11 @@ public class GameService {
 		if (cell.isFlagged()!=savedCell.isFlagged()) {
 			savedCell.setFlagged(cell.isFlagged());
 			savedCell.setQuestionMarked(false);
+			cellRepository.save(savedCell);
 		} else if (cell.isQuestionMarked()!=savedCell.isQuestionMarked()) {
 			savedCell.setQuestionMarked(cell.isQuestionMarked());
 			savedCell.setFlagged(false);
+			cellRepository.save(savedCell);
 		}
 	}
 	

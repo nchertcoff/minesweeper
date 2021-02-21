@@ -24,14 +24,6 @@ public class Cell {
 		this.col = col;
 	}
 
-	//For testing purposes
-	public Cell(Integer row, Integer col, boolean isBomb, Integer bombsArround) {
-		this.row = row;
-		this.col = col;
-		this.isBomb = isBomb;
-		this.bombsArround = bombsArround;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
@@ -119,6 +111,20 @@ public class Cell {
 		if (this.isBomb) return "B ";
 		if (bombsArround>0) return ""+bombsArround+" ";
 		return "  ";
+	}
+
+	//For testing purposes
+	public Cell(Integer row, Integer col, boolean isBomb, Integer bombsArround) {
+		this.row = row;
+		this.col = col;
+		this.isBomb = isBomb;
+		this.bombsArround = bombsArround;
+	}
+	public Cell(Integer row, Integer col, boolean flagged, boolean questionMarked) {
+		this.row = row;
+		this.col = col;
+		this.flagged = flagged;
+		this.questionMarked = questionMarked;
 	}
 
 }

@@ -55,7 +55,7 @@ public class GameController {
 	@GetMapping("/{id}/cells")
 	public List<Cell> getCells(@PathVariable("id") Integer id) {
 		Game game = gameService.getGame(id);
-		return game.getVisitedCells();
+		return game.getVisitedOrMarkedCells();
 	}
 
 	@PostMapping
@@ -68,7 +68,7 @@ public class GameController {
 	public List<Cell> visitCell(@PathVariable("id") Integer gameId, @RequestBody @Valid Cell cell) {
 		Game game = gameService.getGame(gameId);
 		gameService.visitCell(game, cell.getRow(), cell.getCol());
-		return game.getVisitedCells();
+		return game.getVisitedOrMarkedCells();
 	}
 
 	@PutMapping("/{id}/cells")
