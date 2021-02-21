@@ -8,6 +8,6 @@ import com.minesweeper.domain.Cell;
 @Repository
 public interface CellRepository extends JpaRepository<Cell, Long> {
 	
-	Cell getByGameIdAndColAndRow(Integer id, Integer row, Integer col);
+	Cell getByGameIdAndRowAndCol(Integer id, Integer row, Integer col);
 	
 }

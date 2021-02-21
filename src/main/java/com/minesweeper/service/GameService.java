@@ -92,6 +92,8 @@ public class GameService {
 			return;
 		}
 		cells[row][col].setVisited(true);
+		cells[row][col].setQuestionMarked(false);
+		cells[row][col].setFlagged(false);
 		if (!cells[row][col].isBomb()) {
 			//If the cell doesn't have bombs around we visit all of them (and so on)
 			if (cells[row][col].getBombsArround()==0) {
@@ -136,23 +138,28 @@ public class GameService {
 	}
 
 	public Cell getCell(Integer gameId, Integer row, Integer col) {
-		Cell cell = cellRepository.getByGameIdAndColAndRow(gameId, row, col);
+		Cell cell = cellRepository.getByGameIdAndRowAndCol(gameId, row, col);
 		return cell;
 	}
 	
+	/**
+	 * Mark the cell as flagged or as question mark
+	 * @param gameId
+	 * @param cell
+	 */
 	public void modifyCell(Integer gameId, Cell cell) {
+		getGame(gameId);
 		Cell savedCell = getCell(gameId, cell.getRow(), cell.getCol());
 		
-		//If flagged or questionMarked changed, we save the new value
-		if (cell.isFlagged()!=savedCell.isFlagged()) {
-			savedCell.setFlagged(cell.isFlagged());
-			savedCell.setQuestionMarked(false);
-			cellRepository.save(savedCell);
-		} else if (cell.isQuestionMarked()!=savedCell.isQuestionMarked()) {
-			savedCell.setQuestionMarked(cell.isQuestionMarked());
-			savedCell.setFlagged(false);
-			cellRepository.save(savedCell);
+		//Nothing to mark if the cell is already visited
+		if (savedCell.isVisited()) {
+			return;
 		}
+		
+		savedCell.setFlagged(cell.isFlagged());
+		savedCell.setQuestionMarked(cell.isQuestionMarked());
+		cellRepository.save(savedCell);
+		
 	}
 	
 }

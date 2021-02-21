@@ -1,5 +1,7 @@
 package com.minesweeper.domain;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +42,8 @@ public class Game {
 
 	@Transient
 	Cell[][] cells;
+	
+	private LocalDateTime created = LocalDateTime.now();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
 	private List<Cell> cellList = new ArrayList<>();
@@ -131,5 +135,18 @@ public class Game {
 			cells[cell.getRow()][cell.getCol()]=cell;
 		});
 	}
-	
+
+	public Long getSecondsSinceStarted() {
+        Duration duration = Duration.between(created, LocalDateTime.now());
+        return duration.getSeconds();
+	}
+
+	@JsonIgnore
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
 }

@@ -113,7 +113,7 @@ public class MinesweeperGameTest {
     	
     	Integer gameId = preparedGame.getId();
     	Cell firstCell = preparedGame.getCells()[0][0]; 
-    	Mockito.when(cellRepository.getByGameIdAndColAndRow(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(firstCell);
+    	Mockito.when(cellRepository.getByGameIdAndRowAndCol(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(firstCell);
     	assertFalse(firstCell.isFlagged());
     	
     	Cell modifyCell = new Cell(0,0, true, false);
