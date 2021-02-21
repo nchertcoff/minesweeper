@@ -26,7 +26,7 @@ public class Game {
 	private static final long serialVersionUID = -4098934944453342L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@NotBlank

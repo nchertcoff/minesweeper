@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,7 @@ public class GameController {
 	 */
 	@GetMapping
 	public List<Game> getGames(
-			@RequestParam(name = "username", required = true) String username) {
+			@Valid @RequestParam(name = "username", required = true) String username) {
 		return gameService.getGames(username);
 	}
 
@@ -98,6 +99,15 @@ public class GameController {
 			String errorMessage = error.getDefaultMessage();
 			errors.put(fieldName, errorMessage);
 		});
+		return errors;
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public Map<String, Object> handleValidationExceptions(MissingServletRequestParameterException ex) {
+		Map<String, Object> errors = new HashMap<>();
+		errors.put("error", ex.getMessage());
+		errors.put("code", HttpStatus.BAD_REQUEST.value());
 		return errors;
 	}
 

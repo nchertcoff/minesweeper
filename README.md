@@ -2,6 +2,8 @@
 
 The app is develop using Java, Spring boot, JPA and connects to a Postresql database
 
+The client library is develop in Python 
+
 # REST API minesweeper api 
 
 Examples of the rest api
@@ -29,6 +31,20 @@ Examples of the rest api
 ### Response
 
     {"id":102,"username":"nchert","rows":10,"cols":10,"bombs":10,"status":"IN_PROGRESS","visitedCells":[]}
+
+## Get a Game
+
+### Request
+
+`GET /games/1`
+
+    curl -i -H 'Accept: application/json' http://localhost:8080/games/1
+
+### Response
+
+    {"id":1,"username":"nchert","rows":10,"cols":10,"bombs":10,"status":null,"visitedCells":[]}
+    
+The visitedCells list contains all the cells already discovered. You can only see the bombsArround attribute for visited cells. 
 
 ## Visit a Cell
 
