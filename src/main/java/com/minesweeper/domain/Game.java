@@ -2,6 +2,7 @@ package com.minesweeper.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -118,4 +120,16 @@ public class Game {
 		this.cells = cells;
 	}
 
+	public List<Cell> getVisitedCells() {
+		return getCellList().stream().filter(cell -> cell.isVisited()).collect(Collectors.toList());
+	}
+
+	@PostLoad
+	public void postLoad() {
+		cells = new Cell[this.getRows()][this.getCols()];
+		getCellList().stream().forEach(cell -> {
+			cells[cell.getRow()][cell.getCol()]=cell;
+		});
+	}
+	
 }

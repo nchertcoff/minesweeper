@@ -8,16 +8,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "cell")
 public class Cell {
 
 	private static final long serialVersionUID = -30303099955999L;
 	
+	public Cell() {
+	}
+	
+	public Cell(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+
+	//For testing purposes
+	public Cell(Integer row, Integer col, boolean isBomb, Integer bombsArround) {
+		this.row = row;
+		this.col = col;
+		this.isBomb = isBomb;
+		this.bombsArround = bombsArround;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
 	
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="game_id", nullable=false)
 	Game game;

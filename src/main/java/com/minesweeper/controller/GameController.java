@@ -12,7 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.minesweeper.domain.Cell;
 import com.minesweeper.domain.Game;
 import com.minesweeper.exceptions.GameException;
 import com.minesweeper.service.GameService;
@@ -44,10 +47,34 @@ public class GameController {
 		return gameService.getGames(username);
 	}
 
+	@GetMapping("/{id}")
+	public Game getGame(@PathVariable("id") Integer id) {
+		return gameService.getGame(id);
+	}
+
+	@GetMapping("/{id}/cells")
+	public List<Cell> getCells(@PathVariable("id") Integer id) {
+		Game game = gameService.getGame(id);
+		return game.getVisitedCells();
+	}
+
 	@PostMapping
-	public Game addGame(@RequestBody @Valid Game game) {
-		gameService.addGame(game);
+	public Game createGame(@RequestBody @Valid Game game) {
+		gameService.createGame(game);
 		return game;
+	}
+
+	@PostMapping("/{id}/visited-cells")
+	public List<Cell> visitCell(@PathVariable("id") Integer gameId, @RequestBody @Valid Cell cell) {
+		Game game = gameService.getGame(gameId);
+		gameService.visitCell(game, cell.getRow(), cell.getCol());
+		return game.getVisitedCells();
+	}
+
+	@PutMapping("/{id}/cells")
+	public Cell modifyCell(@PathVariable("id") Integer gameId, @RequestBody @Valid Cell cell) {
+		gameService.modifyCell(gameId, cell);
+		return cell;
 	}
 
 	/*

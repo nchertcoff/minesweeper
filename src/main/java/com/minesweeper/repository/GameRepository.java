@@ -11,5 +11,7 @@ import com.minesweeper.domain.Game;
 public interface GameRepository extends JpaRepository<Game, Long> {
 	
 	List<Game> findByUsername(String username);
+
+	Game getById(Integer id);
 	
 }
