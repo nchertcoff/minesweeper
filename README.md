@@ -1,3 +1,7 @@
+# Notes and decisions taken
+
+The app is develop using Java, Spring boot, JPA and connects to a Postresql database
+
 # REST API minesweeper api 
 
 Examples of the rest api
