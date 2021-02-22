@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,7 +34,9 @@ public class Cell {
     @JoinColumn(name="game_id", nullable=false)
 	Game game;
 	
+    @NotNull
     Integer row;
+    @NotNull
     Integer col;
     
 	boolean isBomb;

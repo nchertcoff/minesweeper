@@ -148,7 +148,7 @@ public class GameService {
 	 * @param cell
 	 */
 	public void modifyCell(Integer gameId, Cell cell) {
-		getGame(gameId);
+		Game game = getGame(gameId);
 		Cell savedCell = getCell(gameId, cell.getRow(), cell.getCol());
 		
 		//Nothing to mark if the cell is already visited
@@ -158,6 +158,7 @@ public class GameService {
 		
 		savedCell.setFlagged(cell.isFlagged());
 		savedCell.setQuestionMarked(cell.isQuestionMarked());
+		checkIfCompleted(game);
 		cellRepository.save(savedCell);
 		
 	}
