@@ -1,4 +1,4 @@
-# Notes and decisions tt 
+# Notes and decisions taken
 
 The app is develop using Java, Spring boot, JPA and connects to a Postresql database
 
