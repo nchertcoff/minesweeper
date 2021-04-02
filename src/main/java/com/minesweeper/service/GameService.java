@@ -114,7 +114,11 @@ public class GameService {
 		gameRepository.save(game);
 	}
 
-	private void checkIfCompleted(Game game) {
+	protected void checkIfCompleted(Game game) {
+		if (game==null) {
+			return;
+		}
+		
 		boolean cellIncorrectlyFlagged = false;
 		Cell[][] cells = game.getCells();
 		Integer rows = game.getRows();
